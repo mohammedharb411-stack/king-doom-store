@@ -1,0 +1,1034 @@
+<script>
+  // ====== PRODUCTS DATA ======
+  const productsData = [
+{ id: "king doom 1", name: "ايدي مميز", desc: "ايدي مميز داخل سيرفر King Doom", price: 10, img: "https://github.com/mohammedharb411-stack/King-doom/blob/main/logo.gif?raw=true", cat: "vip", rating: 8.9, badge: "ايدي مميز" },
+];
+</script>
+
+
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <title>king doom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --gold: #ff0000;
+      --gold-light: #ff5c5c;
+      --black: #0A0A0A;
+      --black-light: #1A1A1A;
+      --glass: rgba(255, 0, 0, 0.08);
+      --border: rgba(255, 0, 0, 0.3);
+      --accent: linear-gradient(135deg, #ff0000, #ff0000);
+      --text-primary: #ffffff;
+      --text-secondary: #C0C0C0;
+      --success: #22c55e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--black);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 80%, rgba(255, 0, 0, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 10, 0.95);
+      border-bottom: 2px solid var(--gold);
+      z-index: 1000;
+    }
+
+    .logo img {
+      height: 40px;
+      width: auto;
+      border-radius: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 10px 18px;
+      border-radius: 9999px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #000;
+      background: var(--accent);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cart-btn {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--glass);
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .cart-btn:hover {
+      background: var(--accent);
+      color: #000;
+      transform: scale(1.1);
+    }
+
+    .cart-btn .badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 22px;
+      height: 22px;
+      background: var(--gold);
+      color: #000;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 0 0 8px transparent;
+      }
+    }
+
+    .mobile-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .mobile-toggle span {
+      width: 22px;
+      height: 2px;
+      background: var(--text-primary);
+      transition: 0.3s;
+    }
+
+    /* Sections */
+    .section {
+      display: none;
+      min-height: 100vh;
+      padding-top: 80px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Hero */
+    .hero {
+      padding: 140px 30px 80px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 56px);
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      background: var(--accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto 35px;
+    }
+
+    .btn {
+      padding: 14px 32px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 2px solid var(--text-secondary);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-3px);
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 10px 22px;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 0, 0, 0.1);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--accent);
+      color: #000;
+    }
+
+    /* Products */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 30px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .product-card {
+      background: rgba(26, 26, 26, 0.8);
+      border: 1px solid rgba(255, 0, 0, 0.2);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--gold);
+      box-shadow: 0 8px 30px rgba(255, 0, 0, 0.3);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      padding: 5px 12px;
+      background: var(--accent);
+      color: #000;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    .product-image {
+      position: relative;
+      height: 180px;
+      overflow: hidden;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.08);
+    }
+
+    .product-info {
+      padding: 20px;
+    }
+
+    .product-info h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .product-info .desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--gold);
+    }
+
+    .rating {
+      color: var(--gold);
+      font-size: 13px;
+    }
+
+    .buy-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .buy-btn:hover {
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+      transform: translateY(-2px);
+    }
+
+    /* ========== CART MODAL ========== */
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 2000;
+      display: none;
+      justify-content: flex-end;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .cart-overlay.active {
+      display: flex;
+    }
+
+    .cart-modal {
+      background: var(--black-light);
+      width: 100%;
+      max-width: 500px;
+      height: 100%;
+      border-right: 2px solid var(--gold);
+      display: flex;
+      flex-direction: column;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+      }
+
+      to {
+        transform: translateX(0);
+      }
+    }
+
+    .cart-header {
+      padding: 25px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-header h2 {
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cart-header h2 i {
+      color: var(--gold);
+    }
+
+    .close-cart {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .close-cart:hover {
+      background: var(--gold);
+      color: #000;
+      transform: rotate(90deg);
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .cart-item {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      transition: all 0.3s;
+    }
+
+    .cart-item:hover {
+      border-color: var(--gold);
+      transform: translateX(-5px);
+    }
+
+    .cart-item img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .cart-item-info {
+      flex: 1;
+    }
+
+    .cart-item-info h4 {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .cart-item-info .item-price {
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .remove-item {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 1px solid #ef4444;
+      background: transparent;
+      color: #ef4444;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .remove-item:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+    }
+
+    .empty-cart i {
+      font-size: 64px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    .cart-footer {
+      padding: 25px 20px;
+      border-top: 1px solid var(--border);
+      background: rgba(255, 0, 0, 0.05);
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+
+    .cart-total .total-price {
+      color: var(--gold);
+      font-weight: 800;
+      font-size: 24px;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #5865F2, #4752C4);
+      color: #fff;
+      border: none;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .checkout-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(88, 101, 242, 0.4);
+    }
+
+    .checkout-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Features */
+    .features {
+      padding: 40px 30px 80px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .feature {
+      text-align: center;
+      padding: 25px 20px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+
+    .feature i {
+      font-size: 32px;
+      margin-bottom: 15px;
+      background: var(--accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .feature h4 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--black-light);
+      border-top: 2px solid var(--gold);
+      padding: 40px 30px 30px;
+      text-align: center;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(10, 10, 10, 0.98);
+        flex-direction: column;
+        padding: 20px;
+        gap: 10px;
+        transform: translateY(-150%);
+        transition: 0.3s;
+      }
+
+      .nav-links.active {
+        transform: translateY(0);
+      }
+
+      .mobile-toggle {
+        display: flex;
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a class="logo" onclick="showSection('home')">
+      <img src="https://github.com/mohammedharb411-stack/King-doom/blob/main/logo.gif?raw=true" alt="king doom">
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a onclick="showSection('home')" class="active">🏠 الرئيسية</a></li>
+      <li><a onclick="showSection('products')">🛒 المنتجات</a></li>
+      <li><a onclick="showSection('about')">👥 من نحن</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="cart-btn" onclick="toggleCart()" title="السلة">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="badge" id="cartBadge">0</span>
+      </button>
+      <div class="mobile-toggle" onclick="toggleMobileMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HOME SECTION -->
+  <section id="home" class="section active">
+    <div class="hero">
+      <h1>أفضل المنتجات لخوادم <span>FiveM</span></h1>
+      <p>سيارات حصرية، تصاميم احترافية، وسكربتات متطورة</p>
+
+      <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+        <button class="btn btn-primary" onclick="showSection('products')">
+          <i class="fas fa-shopping-bag"></i> تصفح المنتجات
+        </button>
+        <a href="https://discord.gg/512" target="_blank" class="btn btn-secondary">
+          <i class="fab fa-discord"></i> ديسكورد
+        </a>
+      </div>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">الكل</button>
+      <button class="filter-btn" data-filter="Announ">🛒 علان عاص</button>
+      <button class="filter-btn" data-filter="ID">🛡️ ايديهات</button>
+      <button class="filter-btn" data-filter="vip">💎 حزم</button>
+    </div>
+
+    <div class="container">
+      <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <div class="features">
+      <div class="feature"><i class="fas fa-shield-alt"></i>
+        <h4>جودة مضمونة</h4>
+        <p>جميع المنتجات مختبرة</p>
+      </div>
+      <div class="feature"><i class="fas fa-headset"></i>
+        <h4>دعم 24/7</h4>
+        <p>فريق دعم جاهز</p>
+      </div>
+      <div class="feature"><i class="fas fa-bolt"></i>
+        <h4>تسليم فوري</h4>
+        <p>عبر الديسكورد</p>
+      </div>
+      <div class="feature"><i class="fas fa-sync-alt"></i>
+        <h4>تحديثات مجانية</h4>
+        <p>مستمرة دائماً</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS SECTION -->
+  <section id="products" class="section">
+    <div class="hero">
+      <h1>🛒 جميع المنتجات</h1>
+      <p>تصفح مجموعتنا الكاملة من المنتجات الاحترافية</p>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">الكل</button>
+      <button class="filter-btn" data-filter="Announ">🛒 علان عاص</button>
+      <button class="filter-btn" data-filter="ID">🛡️ ايديهات</button>
+      <button class="filter-btn" data-filter="vip">💎 حزم</button>
+    </div>
+
+    <div class="container">
+      <div class="products-grid" id="productsGrid2"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="section">
+    <div class="hero">
+      <h1>👥 من نحن</h1>
+      <p>متجرك الأول لمنتجات FiveM الاحترافية</p>
+    </div>
+    <div class="container" style="text-align: center;">
+      <p style="color: var(--text-secondary); font-size: 16px; max-width: 700px; margin: 0 auto; line-height: 1.8;">
+        نحن فريق متخصص في تقديم أفضل المنتجات والخامات لخوادم FiveM.
+        نهدف إلى توفير تجربة استثنائية لأصحاب الخوادم واللاعبين.
+      </p>
+    </div>
+  </section>
+
+  <!-- CART MODAL -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCartOnOverlay(event)">
+    <div class="cart-modal" onclick="event.stopPropagation()">
+      <div class="cart-header">
+        <h2><i class="fas fa-shopping-cart"></i> سلة المشتريات</h2>
+        <button class="close-cart" onclick="toggleCart()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="cart-items" id="cartItems">
+        <!-- Cart items will be here -->
+      </div>
+
+      <div class="cart-footer">
+        <div class="cart-total">
+          <span>الإجمالي:</span>
+          <span class="total-price" id="cartTotal">0$</span>
+        </div>
+        <a href="https://ptb.discord.com/channels/1496488829064974366/1502033288871677982"
+          target="_blank" class="checkout-btn" id="checkoutBtn" onclick="checkout()">
+          <i class="fab fa-discord"></i>
+          إتمام الشراء عبر ديسكورد
+        </a>
+        <p style="text-align: center; margin-top: 15px; font-size: 13px; color: var(--text-secondary);">
+          <i class="fas fa-info-circle"></i>
+          سيتم تحويلك للديسكورد لإتمام الطلب
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>king doom</p>
+    <div style="margin-top: 15px;">
+      <a href="https://discord.gg/512" target="_blank" style="color: var(--gold); margin: 0 10px;">
+        <i class="fab fa-discord"></i> ديسكورد
+      </a>
+    </div>
+  </footer>
+
+  <script>
+
+
+    // ====== CART SYSTEM ======
+    let cart = [];
+
+    function addToCart(productId) {
+      const product = productsData.find(p => p.id === productId);
+      if (!product) return;
+
+      // Check if already in cart
+      const existingItem = cart.find(item => item.id === productId);
+      if (existingItem) {
+        showToast('⚠️ المنتج موجود بالفعل في السلة!');
+        return;
+      }
+
+      cart.push(product);
+      updateCartUI();
+      showToast('✅ تمت الإضافة للسلة!');
+
+      // Button animation
+      const btn = event.target.closest('.buy-btn');
+      if (btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> تمت الإضافة';
+        btn.style.background = 'var(--success)';
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          btn.style.background = '';
+        }, 1500);
+      }
+    }
+
+    function removeFromCart(productId) {
+      cart = cart.filter(item => item.id !== productId);
+      updateCartUI();
+      showToast('🗑️ تمت إزالة المنتج');
+    }
+
+    function updateCartUI() {
+      const badge = document.getElementById('cartBadge');
+      const cartItems = document.getElementById('cartItems');
+      const cartTotal = document.getElementById('cartTotal');
+
+      // Update badge
+      badge.textContent = cart.length;
+
+      // Calculate total
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      cartTotal.textContent = total + '$';
+
+      // Update items
+      if (cart.length === 0) {
+        cartItems.innerHTML = `
+      <div class="empty-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <p>السلة فارغة</p>
+        <button class="btn btn-primary" onclick="toggleCart(); showSection('products');" style="margin-top: 20px;">
+          تصفح المنتجات
+        </button>
+      </div>
+    `;
+      } else {
+        cartItems.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <img src="${item.img}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/70/1a1a1a/FFD700?text=67'">
+        <div class="cart-item-info">
+          <h4>${item.name}</h4>
+          <div class="item-price">${item.price}$</div>
+        </div>
+        <button class="remove-item" onclick="removeFromCart('${item.id}')" title="إزالة">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    `).join('');
+      }
+    }
+
+    function toggleCart() {
+      const overlay = document.getElementById('cartOverlay');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = overlay.classList.contains('active') ? 'hidden' : '';
+    }
+
+    function closeCartOnOverlay(event) {
+      if (event.target === event.currentTarget) {
+        toggleCart();
+      }
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        showToast('⚠️ السلة فارغة!');
+        event.preventDefault();
+        return;
+      }
+
+      // Create order message
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      const itemsList = cart.map(item => `• ${item.name} - ${item.price}$`).join('%0A');
+      const message = `🛒 **طلب جديد من king doom**%0A%0A${itemsList}%0A%0A💰 **الإجمالي: ${total}$**`;
+
+      // You can customize the Discord message
+      showToast('🔄 جاري التحويل للديسكورد...');
+    }
+
+    // ====== NAVIGATION ======
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+
+      document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // Close mobile menu
+      document.getElementById('navLinks').classList.remove('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('navLinks').classList.toggle('active');
+    }
+
+    // ====== FILTERS ======
+    let currentFilter = 'all';
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderProducts('productsGrid');
+        renderProducts('productsGrid2');
+      });
+    });
+
+    // ====== RENDER PRODUCTS ======
+    function renderProducts(gridId) {
+      const grid = document.getElementById(gridId);
+      let products = productsData;
+
+      if (currentFilter !== 'all') {
+        products = productsData.filter(p => p.cat === currentFilter);
+      }
+
+      grid.innerHTML = products.map(p => `
+    <div class="product-card">
+      ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+      <div class="product-image">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x200/1a1a1a/FFD700?text=67+STORE'">
+      </div>
+      <div class="product-info">
+        <h3>${p.name}</h3>
+        <p class="desc">${p.desc}</p>
+        <div class="product-meta">
+          <span class="price">${p.price}$</span>
+          <span class="rating"><i class="fas fa-star"></i> ${p.rating}</span>
+        </div>
+        <button class="buy-btn" onclick="addToCart('${p.id}')">
+          <i class="fas fa-cart-plus"></i> أضف للسلة
+        </button>
+      </div>
+    </div>
+  `).join('');
+    }
+
+    // ====== TOAST ======
+    function showToast(msg) {
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(26, 26, 26, 0.95);
+    border: 1px solid var(--gold);
+    border-right: 4px solid var(--gold);
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 3000;
+    animation: slideUp 0.3s ease;
+  `;
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.animation = 'slideDown 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Add animations
+    const style = document.createElement('style');
+    style.textContent = `
+  @keyframes slideUp {
+    from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+    to { transform: translateX(-50%) translateY(0); opacity: 1; }
+  }
+  @keyframes slideDown {
+    from { transform: translateX(-50%) translateY(0); opacity: 1; }
+    to { transform: translateX(-50%) translateY(100px); opacity: 0; }
+  }
+`;
+    document.head.appendChild(style);
+
+    // ====== INIT ======
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts('productsGrid');
+      renderProducts('productsGrid2');
+      updateCartUI();
+    });
+  </script>
+</body>
+
+</html>
